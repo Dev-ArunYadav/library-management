@@ -1,43 +1,56 @@
 package com.library.library_management.entity;
 
+import com.library.library_management.enums.UserStatus;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
-import java.util.List;
+import lombok.Data;
 
 @Entity
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
-
+@Data
 public class Student {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String name;
+    private String fullName;
+    private String dateOfBirth;
+    private String gender;
+    private String bloodGroup;
+    private String nationality;
+    private String category;
 
-    @ManyToOne
-    private SchoolClass schoolClass;
+    private String lastSchoolAttended;
+    private String lastClassPassed;
+    private String yearOfPassing;
+    private String board;
+    private String marksObtained;
+    private String classApplyingFor;
+    private String secondLanguageChoice;
 
-    @ManyToMany
-    @JoinTable(
-            name = "student_subject",
-            joinColumns = @JoinColumn(name = "student_id"),
-            inverseJoinColumns = @JoinColumn(name = "subject_id")
-    )
-    private List<Subject> subjects;
+    private String fatherName;
+    private String motherName;
+    private String guardianName;
+    private String occupation;
+    private String primaryMobile;
+    private String alternateMobile;
+    private String emailAddress;
+    private String residentialAddress;
+    private String emergencyContactName;
+    private String emergencyContactRelation;
+    private String emergencyContactPhone;
 
-    @OneToOne(mappedBy = "student", cascade = CascadeType.ALL)
-    private Parent parent;
+    // Uploaded Document Paths
+    private String birthCertificatePath;
+    private String reportCardPath;
+    private String transferCertificatePath;
+    private String photoPath;
+    private String aadharCardPath;
 
-    @OneToMany(mappedBy = "student", cascade = CascadeType.ALL)
-    private List<Mark> marks;
+    // Reference to the User table
+    @OneToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
-    @OneToMany(mappedBy = "student", cascade = CascadeType.ALL)
-    private List<Attendance> attendanceRecords;
+    @Enumerated(EnumType.STRING)
+    private UserStatus status; // e.g., "Pending", "Approved", "Rejected"
 }
