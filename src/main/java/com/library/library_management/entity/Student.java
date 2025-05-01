@@ -1,5 +1,6 @@
 package com.library.library_management.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.library.library_management.enums.UserStatus;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -47,8 +48,9 @@ public class Student {
     private String aadharCardPath;
 
     // Reference to the User table
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
+    @JsonIgnore
     private User user;
 
     @Enumerated(EnumType.STRING)

@@ -1,6 +1,7 @@
 package com.library.library_management.controller;
 
 import com.library.library_management.entity.Student;
+import com.library.library_management.enums.UserStatus;
 import com.library.library_management.service.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -41,6 +42,17 @@ public class AdminController {
             return ResponseEntity.ok(student);
         } else {
             return ResponseEntity.status(404).body(null);
+        }
+    }
+
+    // API to update the status of a student (for admin use)
+    @PutMapping("/students/updateStatus/{studentId}")
+    public ResponseEntity<String> updateStudentStatus(@PathVariable Long studentId, @RequestParam(value = "status") String status) {
+        try {
+            studentService.updateStudentStatus(studentId, UserStatus.valueOf(status));
+            return ResponseEntity.ok("Student Status Updated Successfully!");
+        } catch (Exception e) {
+            return ResponseEntity.status(400).body("Error: " + e.getMessage());
         }
     }
 }
